@@ -1,0 +1,24 @@
+{
+	"name": "DF_Movies_Transformation",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Ds_Raw_MoviesDB",
+						"type": "DatasetReference"
+					},
+					"name": "sourcestream"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: true) ~> sourcestream"
+			]
+		}
+	}
+}
