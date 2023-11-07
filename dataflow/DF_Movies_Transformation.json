@@ -22,6 +22,9 @@
 				},
 				{
 					"name": "derivedstream"
+				},
+				{
+					"name": "window1"
 				}
 			],
 			"scriptLines": [
@@ -49,7 +52,8 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> selectstream",
 				"selectstream filter(toInteger(year)>1951) ~> filterstream",
-				"filterstream derive(primaary_genere = left(genres,instr(genres,'|')-1)) ~> derivedstream"
+				"filterstream derive(primaary_genere = iif(instr(genres,'|')>0,left(genres,instr(genres,'|')-1),genres)) ~> derivedstream",
+				"derivedstream window() ~> window1"
 			]
 		}
 	}
