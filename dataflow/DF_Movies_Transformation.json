@@ -16,6 +16,12 @@
 			"transformations": [
 				{
 					"name": "selectstream"
+				},
+				{
+					"name": "filterstream"
+				},
+				{
+					"name": "derivedstream"
 				}
 			],
 			"scriptLines": [
@@ -33,10 +39,17 @@
 				"     moveFiles: ['','archive'],",
 				"     rowUrlColumn: 'source_file_name') ~> sourcestream",
 				"sourcestream select(mapColumn(",
+				"          movie,",
+				"          title,",
+				"          genres,",
+				"          year,",
+				"          {Rotten Tomato} = {Rotton Tomato},",
 				"          source_file_name",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectstream"
+				"     skipDuplicateMapOutputs: true) ~> selectstream",
+				"selectstream filter(toInteger(year)>1951) ~> filterstream",
+				"filterstream derive(primaary_genere = left(genres,instr(genres,'|')-1)) ~> derivedstream"
 			]
 		}
 	}
