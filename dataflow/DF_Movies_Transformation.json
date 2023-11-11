@@ -53,7 +53,8 @@
 				"     skipDuplicateMapOutputs: true) ~> selectstream",
 				"selectstream filter(toInteger(year)>1951) ~> filterstream",
 				"filterstream derive(primaary_genere = iif(instr(genres,'|')>0,left(genres,instr(genres,'|')-1),genres)) ~> derivedstream",
-				"derivedstream window() ~> window1"
+				"derivedstream window(over(year),",
+				"     desc({Rotten Tomato}, true)) ~> window1"
 			]
 		}
 	}
