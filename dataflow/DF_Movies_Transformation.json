@@ -24,7 +24,7 @@
 					"name": "derivedstream"
 				},
 				{
-					"name": "window1"
+					"name": "windowstream"
 				}
 			],
 			"scriptLines": [
@@ -53,8 +53,9 @@
 				"     skipDuplicateMapOutputs: true) ~> selectstream",
 				"selectstream filter(toInteger(year)>1951) ~> filterstream",
 				"filterstream derive(primaary_genere = iif(instr(genres,'|')>0,left(genres,instr(genres,'|')-1),genres)) ~> derivedstream",
-				"derivedstream window(over(year),",
-				"     desc({Rotten Tomato}, true)) ~> window1"
+				"derivedstream window(over(year,",
+				"          primaary_genere),",
+				"     asc({Rotten Tomato}, true)) ~> windowstream"
 			]
 		}
 	}
