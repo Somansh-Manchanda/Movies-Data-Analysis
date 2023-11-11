@@ -12,7 +12,11 @@
 					"name": "sourcestream"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "selectstream"
@@ -72,8 +76,14 @@
 				"          {Highest Rating} = max(toInteger({Rotten Tomato})),",
 				"          {Lowest Rating} = min(toInteger({Rotten Tomato}))) ~> aggregatestream",
 				"aggregatestream assert(expectTrue(toInteger(year)>1952, false, 'assert1')) ~> assertstream",
-				"assertstream split(toInteger(year)>1970,",
-				"     disjoint: false) ~> splitstrream@(AzureProcessed, AzureSQLDb)"
+				"assertstream split(toInteger(year)<1970,",
+				"     disjoint: false) ~> splitstrream@(AzureProcessed, AzureSQLDb)",
+				"splitstrream@AzureProcessed sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     outputAssertFailedRows: true,",
+				"     assertFailure_container: 'error') ~> sink1"
 			]
 		}
 	}
