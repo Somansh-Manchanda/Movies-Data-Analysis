@@ -33,7 +33,7 @@
 					"name": "assertstream"
 				},
 				{
-					"name": "split1"
+					"name": "splitstrream"
 				}
 			],
 			"scriptLines": [
@@ -72,8 +72,8 @@
 				"          {Highest Rating} = max(toInteger({Rotten Tomato})),",
 				"          {Lowest Rating} = min(toInteger({Rotten Tomato}))) ~> aggregatestream",
 				"aggregatestream assert(expectTrue(toInteger(year)>1952, false, 'assert1')) ~> assertstream",
-				"assertstream split(ERROR_FUNCTION(''),",
-				"     disjoint: false) ~> split1@(, )"
+				"assertstream split(toInteger(year)>1970,",
+				"     disjoint: false) ~> splitstrream@(AzureProcessed, AzureSQLDb)"
 			]
 		}
 	}
