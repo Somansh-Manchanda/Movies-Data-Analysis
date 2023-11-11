@@ -25,6 +25,12 @@
 				},
 				{
 					"name": "windowstream"
+				},
+				{
+					"name": "aggregatestream"
+				},
+				{
+					"name": "assertstream"
 				}
 			],
 			"scriptLines": [
@@ -56,7 +62,13 @@
 				"derivedstream window(over(year,",
 				"          primaary_genere),",
 				"     asc({Rotten Tomato}, true),",
-				"     rating = rank()) ~> windowstream"
+				"     rating = rank()) ~> windowstream",
+				"windowstream aggregate(groupBy(year,",
+				"          primaary_genere),",
+				"     {Average Rating} = avg(toInteger({Rotten Tomato})),",
+				"          {Highest Rating} = max(toInteger({Rotten Tomato})),",
+				"          {Lowest Rating} = min(toInteger({Rotten Tomato}))) ~> aggregatestream",
+				"aggregatestream assert(expectTrue(toInteger(year)>1952, false, 'assert1')) ~> assertstream"
 			]
 		}
 	}
