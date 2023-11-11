@@ -31,6 +31,9 @@
 				},
 				{
 					"name": "assertstream"
+				},
+				{
+					"name": "split1"
 				}
 			],
 			"scriptLines": [
@@ -68,7 +71,9 @@
 				"     {Average Rating} = avg(toInteger({Rotten Tomato})),",
 				"          {Highest Rating} = max(toInteger({Rotten Tomato})),",
 				"          {Lowest Rating} = min(toInteger({Rotten Tomato}))) ~> aggregatestream",
-				"aggregatestream assert(expectTrue(toInteger(year)>1952, false, 'assert1')) ~> assertstream"
+				"aggregatestream assert(expectTrue(toInteger(year)>1952, false, 'assert1')) ~> assertstream",
+				"assertstream split(ERROR_FUNCTION(''),",
+				"     disjoint: false) ~> split1@(, )"
 			]
 		}
 	}
